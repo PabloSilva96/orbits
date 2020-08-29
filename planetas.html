@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+
+        var canvas = document.createElement("canvas");
+        canvas.width = 400;
+        canvas.height = 400;
+
+        document.body.appendChild(canvas);
+
+        var ctx = canvas.getContext("2d");
+
+        setInterval(update, 10 );
+
+        var x;
+        var y;
+        var r;
+        var xp ;
+        var yp ;
+        var rp;
+        var sunradio= 100;
+        var xm;
+        var ym;
+        var rm;
+        var planetradio = 40;
+        var degrees= 0;
+        var moonrotation=0;
+        var deviation = 40;
+
+        function update() {
+            movePlanet();
+            moveMoon();
+
+            paintBg();         
+            paintSun();
+            paintPlanet();
+            paintMoon();
+ 
+        }
+
+
+        function paintBg() {
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        function paintSun() {
+            x = canvas.width / 2;
+            y = canvas.height / 2;
+            r = 45;
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, 2 * Math.PI, false);
+            ctx.fillStyle= 'yellow';
+            ctx.fill();
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+        function paintPlanet() {
+            rp = 20;
+            ctx.beginPath();
+            ctx.arc(x+xp, y+yp, rp, 0, 2 * Math.PI, false);
+            ctx.fillStyle= 'blue';
+            ctx.fill();
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+        function movePlanet(){
+            
+            xp = (sunradio+deviation) * Math.cos(degrees *(Math.PI/180));
+            yp = sunradio * Math.sin(degrees *(Math.PI/180));
+            if(degrees < 360){
+                degrees++;
+            }else{
+                degrees = 1;
+                deviation = deviation+2;
+            }
+        }
+
+        function paintMoon() {
+            rm = 10;
+            ctx.beginPath();
+            ctx.arc(xp+xm +x, yp+ym+y, rm, 0, 2 * Math.PI, false);
+            ctx.fillStyle= 'gray';
+            ctx.fill();
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+        function moveMoon(){
+            xm = planetradio * Math.cos(moonrotation *(Math.PI/180));
+            ym = (planetradio+5) * Math.sin(moonrotation *(Math.PI/180));
+            if(moonrotation < 360){
+                
+                moonrotation = moonrotation + 20;
+            }else{
+                moonrotation = 1;
+            }
+
+        }
+
+    </script>
+</body>
+
+</html>
